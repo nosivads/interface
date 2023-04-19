@@ -1,23 +1,49 @@
 anyascii==0.3.2
+autopep8==2.0.2
 blis==0.7.9
 catalogue==2.0.8
 certifi==2022.12.7
 charset-normalizer==3.1.0
-click==8.1.3
+click==7.1.2
+cmake==3.26.3
 confection==0.0.4
 conllu==4.5.2
 contractions==0.1.73
 cymem==2.0.7
-en-ner-bc5cdr-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.1/en_ner_bc5cdr_md-0.5.1.tar.gz#sha256=7852184affa649bcc1417d11fb1075b99f483e1f8329d91ca296de8020a46a31
+en-core-sci-lg @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_core_sci_lg-0.4.0.tar.gz#sha256=e74856f331229be751cb3df4e0cde41f1fdc45de35088d037fc9b8634550e85d
+en-core-sci-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_core_sci_md-0.4.0.tar.gz#sha256=9ca2cf8f3b066d0a7e69c10d9cca8822bcfa7fb8c9772bc90f8780629a81e974
+en-core-sci-scibert @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_core_sci_scibert-0.4.0.tar.gz#sha256=78308bbb408ddaf5bdb67ffc437ffcf048fb5e33f406f9fbdd84cbd14f2dc726
+en-core-sci-sm @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_core_sci_sm-0.4.0.tar.gz#sha256=ce30c9c97a4a6ab1f296d84cf587da6b1e3e867b53c17f2197e8f422de69b899
+en-ner-bc5cdr-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_ner_bc5cdr_md-0.4.0.tar.gz#sha256=694a32a6c3d44ae82f3a6bdf67b3f956a82a4803992a361d537eb6bffa1b549a
+en-ner-bionlp13cg-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_ner_bionlp13cg_md-0.4.0.tar.gz#sha256=561229de8a766d8fc1596c5340f1fbf7f14b55dd83ddf3a1f7a3c3dae55c3313
+en-ner-craft-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_ner_craft_md-0.4.0.tar.gz#sha256=99093e5027e0a33979bb887543b708a7a9de2924a67dcdd05da5764551de0aa1
+en-ner-jnlpba-md @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.4.0/en_ner_jnlpba_md-0.4.0.tar.gz#sha256=b58a302c4492e46de7a6ea2660c365c2c5a42d1caf8e3bb2a78b81f2fa126040
+filelock==3.12.0
+huggingface-hub==0.0.12
 idna==3.4
+install==1.3.5
 Jinja2==3.1.2
 joblib==1.2.0
 langcodes==3.3.0
+lit==16.0.1
 lxml==4.9.2
 MarkupSafe==2.1.2
+mpmath==1.3.0
 murmurhash==1.0.9
+networkx==3.1
 nmslib==2.1.1
 numpy==1.24.2
+nvidia-cublas-cu11==11.10.3.66
+nvidia-cuda-cupti-cu11==11.7.101
+nvidia-cuda-nvrtc-cu11==11.7.99
+nvidia-cuda-runtime-cu11==11.7.99
+nvidia-cudnn-cu11==8.5.0.96
+nvidia-cufft-cu11==10.9.0.58
+nvidia-curand-cu11==10.2.10.91
+nvidia-cusolver-cu11==11.4.0.1
+nvidia-cusparse-cu11==11.7.4.91
+nvidia-nccl-cu11==2.14.3
+nvidia-nvtx-cu11==11.7.91
 packaging==23.1
 pandas==2.0.0
 pathy==0.10.1
@@ -25,26 +51,38 @@ preshed==3.0.8
 psutil==5.9.5
 pyahocorasick==2.0.0
 pybind11==2.6.1
-pydantic==1.10.7
+pycodestyle==2.10.0
+pydantic==1.8.2
 pysbd==0.3.4
 python-dateutil==2.8.2
 pytz==2023.3
+PyYAML==6.0
+regex==2023.3.23
 requests==2.28.2
+sacremoses==0.0.53
 scikit-learn==1.2.2
 scipy==1.10.1
 scispacy==0.5.1
 six==1.16.0
 smart-open==6.3.0
-spacy==3.4.4
+spacy==3.0.9
+spacy-alignments==0.9.0
 spacy-legacy==3.0.12
 spacy-loggers==1.0.4
+spacy-transformers==1.0.4
 srsly==2.4.6
+sympy==1.11.1
 termcolor==2.2.0
 textsearch==0.0.24
-thinc==8.1.9
+thinc==8.0.17
 threadpoolctl==3.1.0
+tokenizers==0.10.3
+tomli==2.0.1
+torch==2.0.0
 tqdm==4.65.0
-typer==0.7.0
+transformers==4.9.2
+triton==2.0.0
+typer==0.3.2
 typing_extensions==4.5.0
 tzdata==2023.3
 urllib3==1.26.15
