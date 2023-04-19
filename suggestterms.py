@@ -251,8 +251,8 @@ def get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output):
         with open('terms.txt', 'a') as f:
             f.write('Existing tags:'+'\n')
     output_dict['tags'] = []
-    if screen:
-        print('tags:', tags)
+#    if screen:
+#        print('tags:', tags)
     if tags == []:
         if screen:
             print(colored('NONE', 'cyan'))
@@ -308,10 +308,10 @@ def get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output):
             if show_only_top:
                 break
 
-    if screen:
-        print('entity\tMeSH term\tMesh ID\tscore\tbegin\tend')
-        for line in data:
-            print(line[0]+'\t'+line[1]+'\t'+line[2]+'\t'+str(line[4])+'\t'+str(line[5])+'\t'+str(line[6]))
+#    if screen:
+#        print('entity\tMeSH term\tMesh ID\tscore\tbegin\tend')
+#        for line in data:
+#            print(line[0]+'\t'+line[1]+'\t'+line[2]+'\t'+str(line[4])+'\t'+str(line[5])+'\t'+str(line[6]))
 
     attrs = ["text", "Canonical Name", "Concept ID", "TUI(s)", "Score", "start", "end"]
     df = pd.DataFrame(data, columns=attrs)
@@ -501,11 +501,6 @@ warnings.filterwarnings('ignore')
 # in a web application these could be entered or chosen from menu
 # file ids here as a list of integers. If only one, enter as [nn].
 
-# initialize output file
-with open('terms.txt', 'w') as f:
-    f.write('\n')
-
-print(f'Args: {sys.argv}')
 # use screen for output? True
 # sys.argv[2] 1=True; 2=False
 try:
@@ -515,6 +510,10 @@ try:
         screen=False
 except:
     screen=False
+if not screen:
+# initialize output file
+    with open('terms.txt', 'w') as f:
+        f.write('\n')
 # process the title only? True|False
 # sys.argv[1] 1=True; 2=False
 try:
