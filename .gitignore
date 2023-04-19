@@ -1,3 +1,4 @@
+.gitignore
 xtra_pdf/
 test.py
 terms.txt
