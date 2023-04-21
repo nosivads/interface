@@ -208,9 +208,9 @@ def list_to_string(lst):
     lst = [str(term) for term in lst]
     return ' '.join(lst)
 
-def get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output):
+def get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output, model):
 #    models = ['en_core_sci_md','en_core_sci_lg','en_core_sci_scibert','en_ner_craft_md','en_ner_jnlpba_md','en_ner_bc5cdr_md','en_ner_bionlp13cg_md']
-    model = 'en_ner_bc5cdr_md'
+#    model = 'en_ner_bc5cdr_md'
     first = True
     entities = []
     nlp = spacy.load(model)
@@ -502,14 +502,14 @@ warnings.filterwarnings('ignore')
 # file ids here as a list of integers. If only one, enter as [nn].
 
 # use screen for output? True
-# sys.argv[2] 'S'=True; else: False
+# sys.argv[1] 'S'=True; else: False
 try:
     if sys.argv[1].upper()=='S':
         screen=True
     else:
         screen=False
 except:
-    screen=False
+    screen=True
 if not screen:
 # initialize output file
     with open('terms.txt', 'w') as f:
@@ -525,10 +525,33 @@ try:
 except:
     TLT = False
 
-# process the title only? True|False
-# sys.argv[3] 1=True; 2=False
+# model? 
+# sys.argv[3] 1='en_core_sci_md',2='en_core_sci_lg',3='en_core_sci_scibert',4='en_ner_craft_md'
+# sys.argv[3] 5='en_ner_jnlpba_md',6='en_ner_bc5cdr_md',7=en_ner_bionlp13cg_md'
 try:
     if sys.argv[3] == '1':
+        model = 'en_core_sci_md'
+    elif sys.argv[3] == '2':
+        model = 'en_core_sci_lg'
+    elif sys.argv[3] == '3':
+        model = 'en_core_sci_scibert'
+    elif sys.argv[3] == '4':
+        model = 'en_ner_craft_md'
+    elif sys.argv[3] == '5':
+        model = 'en_ner_jnlpba_md'
+    elif sys.argv[3] == '6':
+        model = 'en_ner_bc5cdr_md'
+    elif sys.argv[3] == '7':
+        model = 'en_ner_bionlp13cg_md'
+    else:
+        model = 'en_ner_bc5cdr_md'
+except:
+    model = 'en_ner_bc5cdr_md'
+
+# process the title only? True|False
+# sys.argv[4] 1=True; 2=False
+try:
+    if sys.argv[4] == '1':
         title_only = True
     else:
         title_only = False
@@ -536,9 +559,9 @@ except:
     title_only = False
 
 # is the doc in 2 columns? True|False
-# sys.argv[4] 1=True; 2=False
+# sys.argv[5] 1=True; 2=False
 try:
-    if sys.argv[4]=='1':
+    if sys.argv[5]=='1':
         columns=True
     else:
         columns=False
@@ -546,9 +569,9 @@ except:
     columns = False
 
 # multiple articles? True|False
-# sys.argv[5] 1=True; 2=False
+# sys.argv[6] 1=True; 2=False
 try:
-    if sys.argv[5]=='1':
+    if sys.argv[6]=='1':
         multiple_articles=True
     else:
         multiple_articles=False
@@ -556,9 +579,9 @@ except:
     multiple_articles = False
 
 # select vocabulary
-# sys.argv[6] type=string
+# sys.argv[7] type=string
 try:
-    vocab=sys.argv[6]
+    vocab=sys.argv[7]
 except:
     vocab = 'MSH'
 # find terms?
@@ -681,7 +704,7 @@ for f in pdfs:
 #            output_dict['url'] = url
             
         if AT:
-            x, nlp, doc, linker, entity_dict, data_df, output_dict = get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output_dict)
+            x, nlp, doc, linker, entity_dict, data_df, output_dict = get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output_dict, model)
 
         #print(entity_dict)
 
