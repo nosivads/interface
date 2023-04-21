@@ -502,7 +502,7 @@ warnings.filterwarnings('ignore')
 # file ids here as a list of integers. If only one, enter as [nn].
 
 # use screen for output? True
-# sys.argv[2] 1=True; 2=False
+# sys.argv[2] 'S'=True; else: False
 try:
     if sys.argv[1].upper()=='S':
         screen=True
@@ -514,37 +514,51 @@ if not screen:
 # initialize output file
     with open('terms.txt', 'w') as f:
         f.write('\n')
-# process the title only? True|False
-# sys.argv[1] 1=True; 2=False
+
+# top level terms? True|False
+# sys.argv[2] 1=True; 2=False
 try:
     if sys.argv[2] == '1':
+        TLT = True
+    else:
+        TLT = False
+except:
+    TLT = False
+
+# process the title only? True|False
+# sys.argv[3] 1=True; 2=False
+try:
+    if sys.argv[3] == '1':
         title_only = True
     else:
         title_only = False
 except:
     title_only = False
+
 # is the doc in 2 columns? True|False
-# sys.argv[3] 1=True; 2=False
+# sys.argv[4] 1=True; 2=False
 try:
-    if sys.argv[3]=='1':
+    if sys.argv[4]=='1':
         columns=True
     else:
         columns=False
 except:
     columns = False
+
 # multiple articles? True|False
-# sys.argv[4] 1=True; 2=False
+# sys.argv[5] 1=True; 2=False
 try:
-    if sys.argv[4]=='1':
+    if sys.argv[5]=='1':
         multiple_articles=True
     else:
         multiple_articles=False
 except:
     multiple_articles = False
+
 # select vocabulary
-# sys.argv[5] type=string
+# sys.argv[6] type=string
 try:
-    vocab=sys.argv[5]
+    vocab=sys.argv[6]
 except:
     vocab = 'MSH'
 # find terms?
@@ -552,8 +566,6 @@ AT = True
 BT = False # iff AT = True
 Roots = False # iff both AT and BT are True
 CUI = False # iff AT = True
-# top level terms
-TLT = True
 
 # create empty dataframe 
 columns = ['id', 'filename', 'text', 'text_expanded', 'entities', 'entities_text', 'mesh_terms']
