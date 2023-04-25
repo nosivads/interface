@@ -501,6 +501,21 @@ warnings.filterwarnings('ignore')
 # in a web application these could be entered or chosen from menu
 # file ids here as a list of integers. If only one, enter as [nn].
 
+# parameters:
+# [1] output target: f=file, s=screen (default)
+# [2] find top level term: 1=yes, 0=no (default)
+# [3] model:
+#   1='en_core_sci_md'
+#   2='en_core_sci_lg'
+#   3='en_core_sci_scibert'
+#   4='en_ner_craft_md'
+#   5='en_ner_jnlpba_md'
+#   6='en_ner_bc5cdr_md' (default)
+#   7=en_ner_bionlp13cg_md'
+# [4] process title only: 1=yes, 0=no (default)
+# [5] number of columns: 2 | 1 (default)
+# [6] multiple articles: 1=yes, 0=no (default)
+
 # use screen for output? True
 # sys.argv[1] 'S'=True; else: False
 try:
@@ -531,13 +546,6 @@ except:
 
 # model? 
 # sys.argv[3]
-# 1='en_core_sci_md'
-# 2='en_core_sci_lg'
-# 3='en_core_sci_scibert'
-# 4='en_ner_craft_md'
-# 5='en_ner_jnlpba_md'
-# 6='en_ner_bc5cdr_md'
-# 7=en_ner_bionlp13cg_md'
 try:
     if sys.argv[3] == '1':
         model = 'en_core_sci_md'
@@ -559,30 +567,36 @@ except:
     model = 'en_ner_bc5cdr_md'
 
 # process the title only? True|False
-# sys.argv[4] 1=True; 2=False
+# sys.argv[4] 1=True; 0=False (default)
 try:
     if sys.argv[4] == '1':
         title_only = True
+    elif sys.argv[4] == '0':
+        title_only = False
     else:
         title_only = False
 except:
     title_only = False
 
-# is the doc in 2 columns? True|False
-# sys.argv[5] 1=True; 2=False
+# number of columns?
+# sys.argv[5] 2 | 1 (default)
 try:
     if sys.argv[5]=='1':
+        columns=False
+    elif sys.argv[5]=='2':
         columns=True
     else:
-        columns=False
+        columns = False
 except:
     columns = False
 
 # multiple articles? True|False
-# sys.argv[6] 1=True; 2=False
+# sys.argv[6] 1=True; 0=False (default)
 try:
     if sys.argv[6]=='1':
         multiple_articles=True
+    elif sys.argv[6]=='0':
+        multiple_articles=False
     else:
         multiple_articles=False
 except:
