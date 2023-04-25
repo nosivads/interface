@@ -506,8 +506,10 @@ warnings.filterwarnings('ignore')
 try:
     if sys.argv[1].upper()=='S':
         screen=True
-    else:
+    elif sys.argv[1].upper()=='F':
         screen=False
+    else:
+        screen=True
 except:
     screen=True
 if not screen:
@@ -518,16 +520,24 @@ if not screen:
 # top level terms? True|False
 # sys.argv[2] 1=True; 2=False
 try:
-    if sys.argv[2] == '1':
+    if sys.argv[2]=='1':
         TLT = True
+    elif sys.argv[2]=='0':
+        TLT = False
     else:
         TLT = False
 except:
     TLT = False
 
 # model? 
-# sys.argv[3] 1='en_core_sci_md',2='en_core_sci_lg',3='en_core_sci_scibert',4='en_ner_craft_md'
-# sys.argv[3] 5='en_ner_jnlpba_md',6='en_ner_bc5cdr_md',7=en_ner_bionlp13cg_md'
+# sys.argv[3]
+# 1='en_core_sci_md'
+# 2='en_core_sci_lg'
+# 3='en_core_sci_scibert'
+# 4='en_ner_craft_md'
+# 5='en_ner_jnlpba_md'
+# 6='en_ner_bc5cdr_md'
+# 7=en_ner_bionlp13cg_md'
 try:
     if sys.argv[3] == '1':
         model = 'en_core_sci_md'
