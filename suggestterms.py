@@ -15,6 +15,7 @@ def main():
     # [1] output target: f=file, s=screen (default)
     # [2] find top level term: 1=yes, 0=no (default)
     # [3] model:
+    #   0='biobert'
     #   1='en_core_sci_md'
     #   2='en_core_sci_lg'
     #   3='en_core_sci_scibert'
@@ -57,7 +58,9 @@ def main():
     # model? 
     # sys.argv[3]
     try:
-        if sys.argv[3] == '1':
+        if sys.argv[3] == '0':
+            model = 'biobert'
+        elif sys.argv[3] == '1':
             model = 'en_core_sci_md'
         elif sys.argv[3] == '2':
             model = 'en_core_sci_lg'
@@ -176,10 +179,15 @@ def main():
                     break
             texts = ['\n'.join(text)]
 
+        taglist = tags_df['Tag_Names'].drop_duplicates().tolist()
+        taglist = list(set([tag for tags in taglist for tag in tags]))
+        taglist = sorted([tag for tag in taglist if tag==tag]) # remove nan
+        
         try:
             tags = tags_df.loc[tags_df['Topic_ID'] == int(id)]['Tag_Names'].values[0]
         except:
             tags = []
+
         if tags == ['N/A']:
             tags = []
 
@@ -237,7 +245,18 @@ def main():
 #               output_dict['filename'] = fn
 #               output_dict['url'] = url
             
-            if AT:
+            if model == 'biobert':
+                textlines = text.replace('"', '\"').split('\n')
+                input_text = '"' + '", "'.join(textlines) + '"' 
+                output_dict = Multi_Label_Classification_of_Pubmed_Articles(input_text)
+                sorted_dict = dict(sorted(output_dict.items(), key=lambda x:x[1], reverse=True))
+                my_table = PrettyTable()
+                for item in sorted_dict.items():
+                    my_table.add_row([item[0], '{:.1%}'.format(item[1])])
+                print(my_table)
+                
+            elif AT:
+                print('tags:', tags)
                 x, nlp, doc, linker, entity_dict, data_df, output_dict = get_umls_terms(text, tags, screen, vocab, BT, Roots, CUI, TLT, output_dict, model)
 
             #print(entity_dict)

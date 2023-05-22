@@ -22,7 +22,22 @@ import scispacy
 import contractions
 import pandas as pd
 import warnings
+import transformers
+import torch
+import numpy as np
+from prettytable import PrettyTable
+from typing import Dict
+from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
+from transformers import BertForSequenceClassification, BertTokenizer
 warnings.filterwarnings('ignore')
+
+num_labels = 14
+# Loading Model and Tokenizer from Hugging Face Spaces
+model = BertForSequenceClassification.from_pretrained(
+    "owaiskha9654/Multi-Label-Classification-of-PubMed-Articles", num_labels=num_labels)
+tokenizer = BertTokenizer.from_pretrained(
+    'owaiskha9654/Multi-Label-Classification-of-PubMed-Articles', do_lower_case=True)
+
 
 
 # Core models
@@ -513,7 +528,6 @@ def walk_hierarchy(identifier, operation):
 
 # get roots
 
-
 def get_roots(identifiers):
     mesh_categories = []
     for identifier in identifiers:
@@ -532,3 +546,82 @@ def get_roots(identifiers):
                 except:
                     break
     return list(set(mesh_categories))
+
+# Source: https://huggingface.co/spaces/owaiskha9654/Multi-Label-Classification-of-Pubmed-Articles/blob/main/app.py
+# This wrapper function will pass the article into the model
+def Multi_Label_Classification_of_Pubmed_Articles(model_input: str) -> Dict[str, float]:
+    dict_custom = {}
+    # splitting inputext into 2 parts
+    Preprocess_part1 = model_input[:divmod(len(model_input), 2)[0]]
+    Preprocess_part2 = model_input[divmod(len(model_input), 2)[0]:]
+    dict1 = tokenizer.encode_plus(
+        Preprocess_part1, max_length=1024, padding=True, truncation=True)
+    dict2 = tokenizer.encode_plus(
+        Preprocess_part2, max_length=1024, padding=True, truncation=True)
+
+    dict_custom['input_ids'] = [dict1['input_ids'], dict1['input_ids']]
+    dict_custom['token_type_ids'] = [
+        dict1['token_type_ids'], dict1['token_type_ids']]
+    dict_custom['attention_mask'] = [
+        dict1['attention_mask'], dict1['attention_mask']]
+
+    outs = model(torch.tensor(dict_custom['input_ids']), token_type_ids=None,
+                 attention_mask=torch.tensor(dict_custom['attention_mask']))
+    b_logit_pred = outs[0]
+    pred_label = torch.sigmoid(b_logit_pred)
+
+    ret = {
+        "Anatomy [A]": float(pred_label[0][0]),
+        "Organisms [B]": float(pred_label[0][1]),
+        "Diseases [C]": float(pred_label[0][2]),
+        "Chemicals and Drugs [D]": float(pred_label[0][3]),
+        "Analytical, Diagnostic and Therapeutic Techniques, and Equipment [E]": float(pred_label[0][4]),
+        "Psychiatry and Psychology [F]": float(pred_label[0][5]),
+        "Phenomena and Processes [G]": float(pred_label[0][6]),
+        "Disciplines and Occupations [H]": float(pred_label[0][7]),
+        "Anthropology, Education, Sociology, and Social Phenomena [I]": float(pred_label[0][8]),
+        "Technology, Industry, and Agriculture [J]": float(pred_label[0][9]),
+        "Information Science [L]": float(pred_label[0][10]),
+        "Named Groups [M]": float(pred_label[0][11]),
+        "Health Care [N]": float(pred_label[0][12]),
+        "Geographicals [Z]": float(pred_label[0][13])}
+    return ret
+
+# Multi_Label_Classification_of_Pubmed_Articles modified
+def classifier(model_input: str, tags: list, taglist: list) -> Dict[str, float]:
+    dict_custom = {}
+    # splitting inputext into 2 parts
+    Preprocess_part1 = model_input[:len(model_input)]
+    Preprocess_part2 = model_input[len(model_input):]
+    dict1 = tokenizer.encode_plus(
+        Preprocess_part1, max_length=1024, padding=True, truncation=True)
+    dict2 = tokenizer.encode_plus(
+        Preprocess_part2, max_length=1024, padding=True, truncation=True)
+
+    dict_custom['input_ids'] = [dict1['input_ids'], dict1['input_ids']]
+    dict_custom['token_type_ids'] = [
+        dict1['token_type_ids'], dict1['token_type_ids']]
+    dict_custom['attention_mask'] = [
+        dict1['attention_mask'], dict1['attention_mask']]
+
+    outs = model(torch.tensor(dict_custom['input_ids']), token_type_ids=None,
+                 attention_mask=torch.tensor(dict_custom['attention_mask']))
+    b_logit_pred = outs[0]
+    pred_label = torch.sigmoid(b_logit_pred)
+
+    ret = {
+        "Anatomy [A]": float(pred_label[0][0]),
+        "Organisms [B]": float(pred_label[0][1]),
+        "Diseases [C]": float(pred_label[0][2]),
+        "Chemicals and Drugs [D]": float(pred_label[0][3]),
+        "Analytical, Diagnostic and Therapeutic Techniques, and Equipment [E]": float(pred_label[0][4]),
+        "Psychiatry and Psychology [F]": float(pred_label[0][5]),
+        "Phenomena and Processes [G]": float(pred_label[0][6]),
+        "Disciplines and Occupations [H]": float(pred_label[0][7]),
+        "Anthropology, Education, Sociology, and Social Phenomena [I]": float(pred_label[0][8]),
+        "Technology, Industry, and Agriculture [J]": float(pred_label[0][9]),
+        "Information Science [L]": float(pred_label[0][10]),
+        "Named Groups [M]": float(pred_label[0][11]),
+        "Health Care [N]": float(pred_label[0][12]),
+        "Geographicals [Z]": float(pred_label[0][13])}
+    return ret
