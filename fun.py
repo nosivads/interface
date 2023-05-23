@@ -552,8 +552,8 @@ def get_roots(identifiers):
 def Multi_Label_Classification_of_Pubmed_Articles(model_input: str) -> Dict[str, float]:
     dict_custom = {}
     # splitting inputext into 2 parts
-    Preprocess_part1 = model_input[:divmod(len(model_input), 2)[0]]
-    Preprocess_part2 = model_input[divmod(len(model_input), 2)[0]:]
+    Preprocess_part1 = model_input[:len(model_input)]
+    Preprocess_part2 = model_input[len(model_input):]
     dict1 = tokenizer.encode_plus(
         Preprocess_part1, max_length=1024, padding=True, truncation=True)
     dict2 = tokenizer.encode_plus(
@@ -588,11 +588,11 @@ def Multi_Label_Classification_of_Pubmed_Articles(model_input: str) -> Dict[str,
     return ret
 
 # Multi_Label_Classification_of_Pubmed_Articles modified
-def classifier(model_input: str, tags: list, taglist: list) -> Dict[str, float]:
+def classifier(model_input: str) -> Dict[str, float]:
     dict_custom = {}
     # splitting inputext into 2 parts
-    Preprocess_part1 = model_input[:len(model_input)]
-    Preprocess_part2 = model_input[len(model_input):]
+    Preprocess_part1 = model_input[:divmod(len(model_input), 2)[0]]
+    Preprocess_part2 = model_input[divmod(len(model_input), 2)[0]:]
     dict1 = tokenizer.encode_plus(
         Preprocess_part1, max_length=1024, padding=True, truncation=True)
     dict2 = tokenizer.encode_plus(

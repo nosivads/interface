@@ -248,7 +248,7 @@ def main():
             if model == 'biobert':
                 textlines = text.replace('"', '\"').split('\n')
                 input_text = '"' + '", "'.join(textlines) + '"' 
-                output_dict = Multi_Label_Classification_of_Pubmed_Articles(input_text)
+                output_dict = classifier(input_text)
                 sorted_dict = dict(sorted(output_dict.items(), key=lambda x:x[1], reverse=True))
                 my_table = PrettyTable()
                 for item in sorted_dict.items():
